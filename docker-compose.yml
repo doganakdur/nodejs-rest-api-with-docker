@@ -1,0 +1,25 @@
+version: '3.3'
+services:
+  node-api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - node-api-network
+    container_name: node-api
+    env_file: .env.dev
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    networks:
+      - node-api-network
+    container_name: mongo
+networks:
+  node-api-network:
+    driver: bridge
